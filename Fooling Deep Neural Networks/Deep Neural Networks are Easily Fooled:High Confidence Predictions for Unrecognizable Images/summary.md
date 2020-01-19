@@ -63,5 +63,6 @@ So, we use a new algorithm called the multi-dimensional archive of phenotypic el
 <details open>
   <summary>Representation of Images as genome (Image Encoding)</summary>
 
+  #### Representation of Images as genome (Image Encoding)
   Will update from here after going through the references.
 </details>
