@@ -1,22 +1,22 @@
 ## Related Works
 1. C. Szegedy, W. Zaremba, I. Sutskever, J. Bruna, D. Erhan,I. Goodfellow, and R. Fergus. Intriguing properties of neural networks. arXiv preprint arXiv:1312.6199, 2013.
-   - Changing an image, originally correctly classified (e.g. as a lion), in a way imperceptible to human eyes, can cause a DNN to label the image as something else entirely (e.g. mislabeling a lion as a library).
-   - For example, Changing a few pixels in an image of lion can mislead the DNN to classify it as a library. Though the altered image seems like a lion to human, the DNN recognises it as a library.
+  - Changing an image, originally correctly classified (e.g. as a lion), in a way imperceptible to human eyes, can cause a DNN to label the image as something else entirely (e.g. mislabeling a lion as a library).
+  - For example, Changing a few pixels in an image of lion can mislead the DNN to classify it as a library. Though the altered image seems like a lion to human, the DNN recognises it as a library.
 2. D. Floreano and C. Mattiussi. Bio-inspired artificial intelligence:  theories,  methods,  and  technologies.   MIT  press,2008.
-   - IDK (Need to read it)
+  - IDK (Need to read it)
 3. A. Cully, J. Clune, and J.-B. Mouret. Robots that can adapt like natural animals. arXiv preprint arXiv:1407.3501, 2014.
-   - IDK (Need to read it)
+  - IDK (Need to read it)
 4. K. Deb.Multi-objective optimization using evolutionary algorithms, volume 16. John Wiley & Sons, 2001.
-   - IDK (Need to read it)
+  - IDK (Need to read it)
 5. H. Lipson. Principles of modularity, regularity, and hierarchy for scalable systems.Journal of Biological Physics andChemistry, 7(4):125, 2007.
-   - IDK (Need to read it)
+  - IDK (Need to read it)
 6. K. O. Stanley.  Compositional pattern producing networks: A novel abstraction of development. Genetic programming and evolvable machines, 8(2):131–162, 2007
-   - IDK (Need to read it)
+  - IDK (Need to read it)
 7. . Secretan, N. Beato, D. B. D Ambrosio, A. Rodriguez,A. Campbell, and K. O. Stanley. Picbreeder: evolving pictures collaboratively online. In Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, pages1759–1768. ACM, 2008.
-   - IDK (Need to read it)
+  - IDK (Need to read it)
 8. J. E. Auerbach.Automated evolution of interesting im-ages.  In Artificial Life 13, number EPFL-CONF-191282.MIT Press, 2012.
-   - IDK (Need to read it)
-9.  
+  - IDK (Need to read it)
+9. ...
 
 ## Introduction
 It is easy to produce images that are completely unrecognizable to humans (Fig. 1), but that state-of-the-art DNNs believe to be recognizable objects with over 99% confidence (e.g. labeling with certainty that TV static (refers to black and white dots screen on TV) is a motorcycle).
@@ -26,11 +26,10 @@ It is easy to produce images that are completely unrecognizable to humans (Fig. 
 Figure 1
 
 <details open>
-  <summary>Comparision with [1]</summary>
+  <summary>Comparison with [1]</summary>
 
-    This differs from [1] in a sense that, in [1] they modified the pixels of a lion image (the image contained a legit object) and the network misclassified it as library. Whereas, in this paper, the authors take a **garbage image** i.e. image with black and white dots (no legit object), and the **model classifies it as a motorcycle**.
+  This differs from [1] in a sense that, in [1] they modified the pixels of a lion image (the image contained a legit object) and the network misclassified it as library. Whereas, in this paper, the authors take a **garbage image** i.e. image with black and white dots (no legit object), and the **model classifies it as a motorcycle**.
 </details>
-
 
 We use **evolutionary algorithms** or **gradient ascent** to generate images.
 
@@ -64,5 +63,5 @@ So, we use a new algorithm called the multi-dimensional archive of phenotypic el
 <details open>
   <summary>Representation of Images as genome (Image Encoding)</summary>
 
-    Will update from here after going through the references.
+  Will update from here after going through the references.
 </details>
