@@ -28,6 +28,7 @@ Figure 1
 <details open>
   <summary>Comparison with [1]</summary>
 
+  ### Comparison with [1]
   This differs from [1] in a sense that, in [1] they modified the pixels of a lion image (the image contained a legit object) and the network misclassified it as library. Whereas, in this paper, the authors take a **garbage image** i.e. image with black and white dots (no legit object), and the **model classifies it as a motorcycle**.
 </details>
 
