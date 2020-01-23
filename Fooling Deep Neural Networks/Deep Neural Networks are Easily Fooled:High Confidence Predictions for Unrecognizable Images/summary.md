@@ -25,12 +25,12 @@ It is easy to produce images that are completely unrecognizable to humans (Fig. 
 
 Figure 1
 
-<details open>
-  <summary>Comparison with [1]</summary>
+___
 
-  ### Comparison with [1]
-  This differs from [1] in a sense that, in [1] they modified the pixels of a lion image (the image contained a legit object) and the network misclassified it as library. Whereas, in this paper, the authors take a **garbage image** i.e. image with black and white dots (no legit object), and the **model classifies it as a motorcycle**.
-</details>
+### Comparison with [1]
+This differs from [1] in a sense that, in [1] they modified the pixels of a lion image (the image contained a legit object) and the network misclassified it as library. Whereas, in this paper, the authors take a **garbage image** i.e. image with black and white dots (no legit object), and the **model classifies it as a motorcycle**.
+
+___
 
 
 We use **evolutionary algorithms** or **gradient ascent** to generate images.
@@ -64,16 +64,25 @@ Figure 2
 
 The EA mentioned in [2] optimize solutions to perform well on one objective or on a small set of objectives (e.g. evolving images to match a single ImageNet class).
 
-So, we use a new algorithm called the multi-dimensional archive of phenotypic elites MAP-Elites [3], which enables us to simultaneously evolve a population that contains individuals that score well on many classes (e.g. all 1000 ImageNet classes).
+So, we use a new algorithm called **the multi-dimensional archive of phenotypic elites MAP-Elites** [3], which enables us to simultaneously evolve a population that contains individuals that score well on many classes (e.g. all 1000 ImageNet classes).
 
 **Fitness** is determined by showing the image to the DNN; if the image generates a higher prediction score (probability) **for any class** than has been seen before, the newly generated individual (image) becomes the champion in the archive **for that class**.
 
-<details open>
-  <summary>Representation of Images as genome (Image Encoding)</summary>
+___
 
-  #### Representation of Images as genome (Image Encoding)
-  Will update from here after going through the references.
-</details>
+#### Representation of Images as genome (Image Encoding)
+Two different types of encoding:
+1. Direct Encoding
+2. Indirect Encoding
+
+**Direct Encoding**
+- One grayscale integer for each of 28×28 pixels for MNIST, and three integers (H, S, V) for each of 256×256 pixels for ImageNet.
+- Steps:
+  1. Each pixel value is initialized with **uniform random noise** within the [0,255] range.
+  2. Those numbers are independently mutated; first by determining which numbers are mutated, via a rate **(mutation rate)** that starts at 0.1 (each number has a 10% chance of being chosen to be mutated) and **drops by half every 1000 generations**.
+  3. The numbers chosen to be mutated are then altered via the **polynomial mutation operator** [4] with a fixed **mutation strength of 15**.
+
+___
 
 
 ## For more information
