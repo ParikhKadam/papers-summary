@@ -41,7 +41,7 @@ Here, the authors experimented with MNIST dataset. ~They added a new class 10 fo
 
 In the above part, the authors did not add a new class. Instead, they expected the model to output low probability for each of the default classes. Thus the model effectively have a way to communicate "garbage" image. **The authors haven't yet tried adding a new "garbage" class.**
 
-Also, the output probabilities of all classes must sum up to 1 i.e. the output activation function is not sigmoid but softmax.
+Also, the output probabilities of all classes must sum up to 1 i.e. the output activation function is softmax and not sigmoid.
 
 ### Topics discussed
 1. Comparison between human vision and DNN-based computer vision
@@ -55,6 +55,8 @@ Also, the output probabilities of all classes must sum up to 1 i.e. the output a
 
 ### Generating images using evolutionary algorithm
 EAs are optimization algorithms inspired by Darwinian evolution (the theory of evolution of humans -- from monkey to human). They contain a population of "organisms" (here, images) that alternately face **selection** (keeping the best) and then **random perturbation** (mutation and/or crossover). Which organisms are selected depends on the **fitness function**, which in these experiments is the highest prediction value a DNN makes for that image belonging to a class (Fig. 2).
+
+To know more about these terms, visit the link of genetic algorithms provided in [For more information](#for-more-information) section of this file.
 
 ![Figure 2](images/fig2.png)
 
@@ -75,4 +77,5 @@ So, we use a new algorithm called the multi-dimensional archive of phenotypic el
 
 
 ## For more information
-http://www.evolvingai.org/fooling
+1. Official Website - http://www.evolvingai.org/fooling
+2. Genetic/Evolutionary Algorithms - https://github.com/ParikhKadam/genetic-or-evolutionary-algorithms
