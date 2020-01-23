@@ -6,15 +6,15 @@
   - IDK (Need to read it)
 3. A. Cully, J. Clune, and J.-B. Mouret. Robots that can adapt like natural animals. arXiv preprint arXiv:1407.3501, 2014.
   - IDK (Need to read it)
-4. K. Deb.Multi-objective optimization using evolutionary algorithms, volume 16. John Wiley & Sons, 2001.
+4. K. Deb. Multi-objective optimization using evolutionary algorithms, volume 16. John Wiley & Sons, 2001.
   - IDK (Need to read it)
 5. H. Lipson. Principles of modularity, regularity, and hierarchy for scalable systems.Journal of Biological Physics andChemistry, 7(4):125, 2007.
   - IDK (Need to read it)
 6. K. O. Stanley.  Compositional pattern producing networks: A novel abstraction of development. Genetic programming and evolvable machines, 8(2):131–162, 2007
+  - Have a look here - https://github.com/ParikhKadam/genetic-or-evolutionary-algorithms#compositional-pattern-producing-networks-cppns
+7. J. Secretan, N. Beato, D. B. D Ambrosio, A. Rodriguez, A. Campbell, and K. O. Stanley. Picbreeder: evolving pictures collaboratively online. In Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, pages1759–1768. ACM, 2008.
   - IDK (Need to read it)
-7. . Secretan, N. Beato, D. B. D Ambrosio, A. Rodriguez,A. Campbell, and K. O. Stanley. Picbreeder: evolving pictures collaboratively online. In Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, pages1759–1768. ACM, 2008.
-  - IDK (Need to read it)
-8. J. E. Auerbach.Automated evolution of interesting im-ages.  In Artificial Life 13, number EPFL-CONF-191282.MIT Press, 2012.
+8. J. E. Auerbach. Automated evolution of interesting images. In Artificial Life 13, number EPFL-CONF-191282.MIT Press, 2012.
   - IDK (Need to read it)
 9. ...
 
@@ -82,6 +82,11 @@ Two different types of encoding:
   2. Those numbers are independently mutated; first by determining which numbers are mutated, via a rate **(mutation rate)** that starts at 0.1 (each number has a 10% chance of being chosen to be mutated) and **drops by half every 1000 generations**.
   3. The numbers chosen to be mutated are then altered via the **polynomial mutation operator** [4] with a fixed **mutation strength of 15**.
 
+**Indirect Encoding**
+- Properties:
+   1. More likely to produce regular images, i.e. images that contain compressible patterns (e.g. symmetry and repetition) [5].
+   2. Indirectly encoded images tend to be regular because elements in the genome can affect multiple parts of the image [6].
+- Specifically, the indirect encoding here is a **compositional pattern producing network (CPPN)**, which can evolve complex, regular images that resemble natural and man-made objects [7, 5, 8].
 ___
 
 
