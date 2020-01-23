@@ -37,9 +37,11 @@ We use **evolutionary algorithms** or **gradient ascent** to generate images.
 
 We also find that, for MNIST DNNs, **it is not easy to prevent the DNNs from being fooled** by retraining them with fooling images labeled as such. While retrained DNNs learn to classify the negative examples as fooling images, anew batch of fooling images can be produced that fool these new networks, even after many retraining iterations.
 
-~Here, the authors experimented with MNIST dataset. They added a new class 10 for garbage images. Prepared a dataset of such garbage images to train the network on it, with an expectation that these are garbage images and stop misclassifying them. As expected, the network learned patterns (after all that's what the ML models do) and stopped misclassifying such images as legit target classes. But now, running the algorithm (mentioned above) with this newly trained model, it generated new garbage images which the model will misclassify. Repeating these steps, it showed no good results.~
+Here, the authors experimented with MNIST dataset. ~They added a new class 10 for garbage images.~ Prepared a dataset of such garbage images to train the network on it, with an expectation that these are garbage images and stop misclassifying them. As expected, the network learned patterns (after all that's what the ML models do) and stopped misclassifying such images as legit target classes. But now, running the algorithm (mentioned above) with this newly trained model, it generated new garbage images which the model will misclassify. Repeating these steps, it showed no good results.
 
-update here... (not sigmoid but softmax)
+In the above part, the authors did not add a new class. Instead, they expected the model to output low probability for each of the default classes. Thus the model effectively have a way to communicate "garbage" image. **The authors haven't yet tried adding a new "garbage" class.**
+
+Also, the output probabilities of all classes must sum up to 1 i.e. the output activation function is not sigmoid but softmax.
 
 ### Topics discussed
 1. Comparison between human vision and DNN-based computer vision
