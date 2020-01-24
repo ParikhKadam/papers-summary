@@ -31,6 +31,12 @@ ___
 ### Comparison with [1]
 This differs from [1] in a sense that, in [1] they modified the pixels of a lion image (the image contained a legit object) and the network misclassified it as library. Whereas, in this paper, the authors take a **garbage image** i.e. image with black and white dots (no legit object), and the **model classifies it as a motorcycle**.
 
+Not only garbage image, but the authors also try on regular images, i.e. images with certain type of patterns as you will see below.
+
+That is, the difference lies in image generation. [1] generates images by changing pixel values in meaningful images **(gradient ascent)** and those generated images contains the same meaning as before. Hence, for humans, it's like a very minor change but the DNNs are fooled. For DNNs, the object contained in the image has changed completely.
+
+Whereas, in here, the authors generate images using evolutionary algorithms. There are two types of generated images: **irregular black and white dots** and **regular patterns like art**.
+
 ___
 
 
@@ -95,7 +101,7 @@ ___
 #### CPPNs
 CPPN encoded EA can produce images that both humans and DNNs can recognize.
 
-![fig3](/Fooling&#32;Deep&#32;Neural&#32;Networks/Deep&#32;Neural&#32;Networks&#32;are&#32;Easily&#32;Fooled:High&#32;Confidence&#32;Predictions&#32;for&#32;Unrecognizable&#32;Images/images/fig3.png)
+![Figure 3](/Fooling&#32;Deep&#32;Neural&#32;Networks/Deep&#32;Neural&#32;Networks&#32;are&#32;Easily&#32;Fooled:High&#32;Confidence&#32;Predictions&#32;for&#32;Unrecognizable&#32;Images/images/fig3.png)
 
 Figure 3
 
@@ -104,6 +110,28 @@ CPPNs are similar to artificial neural networks (ANNs). A CPPN takes in the(x, y
 To know more about CPPNs, visit the link of genetic algorithms provided in [For more information](#for-more-information) section of this file.
 
 ___
+
+Above I said that, there are two types of generated images: **irregular black and white dots** and **regular patterns like art**. Now, let's relate them with image generation techniques. Images generated using direct encoding are irregular while the ones generated using indirect encoding are regular. 
+
+## Results
+
+### Fooling MNIST DNNs
+
+#### Direct Encoding - Irregular Images
+Multiple, independent runs of evolution repeatedly produce images that MNIST DNNs (such as LeNet) believe with 99.99% confidence to be digits, but are unrecognizable as such (Fig. 4). In less than 50 generations, each run of evolution repeatedly produces unrecognizable images of each digit type classified by MNIST DNNs with 99.99% confidence. By 200 generations, median confidence is >= 99.99%.
+
+![Figure 4](/Fooling&#32;Deep&#32;Neural&#32;Networks/Deep&#32;Neural&#32;Networks&#32;are&#32;Easily&#32;Fooled:High&#32;Confidence&#32;Predictions&#32;for&#32;Unrecognizable&#32;Images/images/fig4.png)
+
+Figure 4
+
+#### Indirect Encoding - Regular Images
+Regular encoding might produce more recognizable images than the irregular white-noise static of the direct encoding. These images contain more strokes and other regularities, still the MNIST DNNs labels them as digits with 99.99% confidence (Fig. 5) after only a few generations. By 200 generations, median confidence is 99.99%.
+
+![Figure 5](/Fooling&#32;Deep&#32;Neural&#32;Networks/Deep&#32;Neural&#32;Networks&#32;are&#32;Easily&#32;Fooled:High&#32;Confidence&#32;Predictions&#32;for&#32;Unrecognizable&#32;Images/images/fig5.png)
+
+Figure 5
+
+**But**, certain patterns repeatedly evolve in some digit classes (Fig. 5). Images classified as a 1 tend to have vertical bars, while images classified as a 2 tend to have a horizontal bar in the lower half of the image. Qualitatively similar discriminative features are observed in 50 other runs as well. This result suggests that **the EA exploits specific discriminative features, corresponding to the handwritten digits, learned by MNIST DNNs**.
 
 ## For more information
 1. Official Website - http://www.evolvingai.org/fooling
