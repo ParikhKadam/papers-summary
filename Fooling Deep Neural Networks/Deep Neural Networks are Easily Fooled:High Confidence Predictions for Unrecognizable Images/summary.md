@@ -133,6 +133,21 @@ Figure 5
 
 **But**, certain patterns repeatedly evolve in some digit classes (Fig. 5). Images classified as a 1 tend to have vertical bars, while images classified as a 2 tend to have a horizontal bar in the lower half of the image. Qualitatively similar discriminative features are observed in 50 other runs as well. This result suggests that **the EA exploits specific discriminative features, corresponding to the handwritten digits, learned by MNIST DNNs**.
 
+### Fooling ImageNet DNNs
+
+The authors thought that MNIST DDNs got easily fooled because they are trained on a small dataset and hence, resulted in overfitting that data. To verify this, they experimented the same on ImageNet DNNs.
+
+#### Direct Encoding - Irregular Images
+Confidence scores for images were averaged over 10 crops (1 center, 4 corners and 5 mirrors) of size 227×227. The directly encoded EA was less successful at producing high-confidence images in this case.  Even after 20,000 generations, evolution failed to produce high-confidence images for many categories (Fig. 6, median confidence 21.59%). However, evolution did manage to produce images for 45 classes that are classified with >= 99% confidence to be natural images (Fig. 1).
+
+![Figure 6](/Fooling&#32;Deep&#32;Neural&#32;Networks/Deep&#32;Neural&#32;Networks&#32;are&#32;Easily&#32;Fooled:High&#32;Confidence&#32;Predictions&#32;for&#32;Unrecognizable&#32;Images/images/fig6.png)
+
+While in some cases one might recognize features of the target class in the image if told the class. That means, the images generated were like, if you tell the class name to a human, he/she might identify features in the image in a way that the class labelled to the image might seem promising. But, if the class of that image is not disclosed, the human might not detect such features of that class in the image. Hence, if humans too can detect the features, there's no doubt that DNNs would recognize class in such irregular image.
+
+#### Indirect Encoding - Regular Images
+
+
+
 ## For more information
 1. Official Website - http://www.evolvingai.org/fooling
 2. Genetic/Evolutionary Algorithms - https://github.com/ParikhKadam/genetic-or-evolutionary-algorithms
