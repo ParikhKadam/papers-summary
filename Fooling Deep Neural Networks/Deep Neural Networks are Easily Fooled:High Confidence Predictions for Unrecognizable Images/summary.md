@@ -1,5 +1,5 @@
 # Deep Neural Networks are Easily Fooled: High Confidence Predictions for Unrecognizable Images
-https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Nguyen_Deep_Neural_Networks_2015_CVPR_paper.pdf
+http://www.evolvingai.org/files/DNNsEasilyFooled_cvpr15.pdf
 
 ## Related Works
 1. C. Szegedy, W. Zaremba, I. Sutskever, J. Bruna, D. Erhan, I. Goodfellow, and R. Fergus. Intriguing properties of neural networks. arXiv preprint arXiv:1312.6199, 2013.
@@ -22,6 +22,8 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Nguyen_Deep_Ne
    - IDK (Need to read it)
 9. K. Deb. Multi-objective optimization using evolutionary algorithms, volume 16. John Wiley & Sons, 2001.
 10. I. Biederman. Visual object recognition, volume 2. MIT press Cambridge, 1995.
+11. K. Simonyan, A. Vedaldi, and A. Zisserman. Deep inside convolutional networks: Visualising image classification models and saliency maps. arXiv preprint arXiv:1312.6034, 2013.
+12. D. Erhan, Y. Bengio, A. Courville, and P. Vincent. Visualizing higher-layer features of a deep network. Dept. IRO, Universit ́e de Montr ́eal, Tech. Rep, 2009.
 
 ## Introduction
 It is easy to produce images that are completely unrecognizable to humans (Fig. 1), but that state-of-the-art DNNs believe to be recognizable objects with over 99% confidence (e.g. labeling with certainty that TV static (refers to black and white dots screen on TV) is a motorcycle).
@@ -33,7 +35,7 @@ Figure 1
 ___
 
 ### Comparison with| [1]
-This differs from [1|:--:|] in a sense that, in [1] they modified the pixels of a lion image (the image contained a legit object) and the network misclassified it as library. Whereas, in| this paper|, the authors take a **garbage image** i.e. image with black and white dots (no legit object), and the **model classifies it as a motorcycle**.
+This differs from [1] in a sense that, in [1] they modified the pixels of a lion image (the image contained a legit object) and the network misclassified it as library. Whereas, in| this paper|, the authors take a **garbage image** i.e. image with black and white dots (no legit object), and the **model classifies it as a motorcycle**.
 
 Not only garbage image, but the authors also try on regular images, i.e. images with certain type of patterns as you will see below.
 
@@ -41,16 +43,19 @@ That is, the difference lies in image generation. [1] generates images by changi
 
 Whereas, in here, the authors generate images using evolutionary algorithms. There are two types of generated images: **irregular black and white dots** and **regular patterns like art**.
 
-___
+The authors also show image generation using gradient ascent. But it isn't the same approach as in [1].
 
+___
 
 We use **evolutionary algorithms** or **gradient ascent** to generate images.
 
 We also find that, for MNIST DNNs, **it is not easy to prevent the DNNs from being fooled** by retraining them with fooling images labeled as such. While retrained DNNs learn to classify the negative examples as fooling images, anew batch of fooling images can be produced that fool these new networks, even after many retraining iterations.
 
-Here, the authors experimented with MNIST dataset. ~They added a new class 10 for garbage images.~ Prepared a dataset of such garbage images to train the network on it, with an expectation that these are garbage images and stop misclassifying them. As expected, the network learned patterns (after all that's what the ML models do) and stopped misclassifying such images as legit target classes. But now, running the algorithm (mentioned above) with this newly trained model, it generated new garbage images which the model will misclassify. Repeating these steps, it showed no good results.
+Here, the authors experimented with MNIST dataset. They added a new class 10 for garbage images. Prepared a dataset of such garbage images to train the network on it, with an expectation that these are garbage images and stop misclassifying them. As expected, the network learned patterns (after all that's what the ML models do) and stopped misclassifying such images as legit target classes. But now, running the algorithm (mentioned above) with this newly trained model, it generated new garbage images which the model will misclassify. Repeating these steps, it showed no good results.
 
-In the above part, the authors did not add a new class. Instead, they expected the model to output low probability for each of the default classes. Thus the model effectively have a way to communicate "garbage" image. **The authors haven't yet tried adding a new "garbage" class.**
+~In the above part, the authors did not add a new class. Instead, they expected the model to output low probability for each of the default classes. Thus the model effectively have a way to communicate "garbage" image. **The authors haven't yet tried adding a new "garbage" class.**~
+
+To be clear, when retraining on garbage images, a new class is added. While, when generating garbage images **for the first time**, the authors expected the model to output low probabilities for each of real classes.
 
 Also, the output probabilities of all classes must sum up to 1 i.e. the output activation function is softmax and not sigmoid.
 
@@ -173,17 +178,60 @@ Confidence scores for images were averaged over 10 crops (1 center, 4 corners an
 |Figure 9|
 
 3. Different runs of EA, produce different image types for these related categories. It reveals that there are different discriminative features per class that evolution exploits. That suggests that there are many different ways to fool the same DNN for each class.
-4. Removing repeated patterns in images generated by CPPN, drops DNNs confidence score. CPPNs tend to produce regular images [6, 9]. Psychologists use the same ablation (removal) technique to learn which image features humans use to recognize objects [10]. In many images, ablating extra copies of the repeated element did lead to a performance drop, albeit a small one (Fig 10).
+4. Removing repeated patterns in images generated by CPPN, drops DNNs confidence score. CPPNs tend to produce regular images [6, 9]. Psychologists use the same ablation (removal) technique to learn which image features humans use to recognize objects [10]. In many images, ablating extra copies of the repeated element did lead to a performance drop, **albeit a small one** (Fig 10).
 
 |![Figure 10](/Fooling&#32;Deep&#32;Neural&#32;Networks/Deep&#32;Neural&#32;Networks&#32;are&#32;Easily&#32;Fooled:High&#32;Confidence&#32;Predictions&#32;for&#32;Unrecognizable&#32;Images/images/fig10.png)|
 |:--:|
 |Figure 10|
 
 5. It means that the extra copies make the DNN more confident that the image belongs to the target class. This result is in line with a previous paper [26] that produced images to maximize DNN confidence scores, which also saw the emergence of features (e.g. a fox’s ears) repeated throughout an image.
-6. These results suggest that DNNs tend to learn low-and middle-level features rather than the global structure of objects. If DNNs were properly learning global structure, images should receive lower DNN confidence scores if they contain repetitions of object subcomponents, because this rarely appears in natural images, such as many pairs of fox ears.
-7. 
+6. These results suggest that DNNs tend to learn low-and middle-level features rather than the global structure of objects. If DNNs were properly learning global structure, images should receive lower DNN confidence scores if they contain repetitions of object subcomponents, because this rarely appears in natural images, such as many pairs of fox ears without nose in a single image.
+7. The DNNs didn't get fooled for some classes in Fig. 7 (class numbers 157-286) i.e. the generated images got less confidence score for these classes. These classes are dogs and cats, which are overrepresented in the ImageNet dataset (i.e. there are many more classes of cats than classes of cars). There are two possible explanations for this:
+   1. The network is tuned to identify many specific types of dogs and cats. Therefore, it ends up having more units dedicated to this image type than others. In other words, the size of the dataset of cats and dogs it has been trained on is larger than for other categories, meaning it is less overfit, and thus more difficult to fool.  If true, this explanation means that larger datasets are a way to ameliorate the problem of DNNs be-ing easily fooled.
+   2. An alternate, though not mutually exclusive, explanation is that, because there are more cat and dog classes, the EA had difficulty finding an image that scores high in a specific dog category (e.g. Japanese spaniel), but low in any other related categories (e.g. Blenheim spaniel), which is necessary to produce a high confidence given that the final DNN layer is softmax. If it was sigmoid, the GA might have been successful in generating images, for which the DNNs give high confidence score for both the breeds of dog. But as it is softmax, the DNNs needs to distinguish between these breeds and hence, it becomes harder to GA to generate images which help DNNs to distinguish between these breeds. This explanation suggests that datasets with more classes can help ameliorate fooling.
 
 
+### Comparison between DNNs
+The results of the previous section suggest that there are discriminative features of a class of images that DNNs learn and evolution exploits. One question is whether different DNNs learn the same features for each class, or whether each trained DNN learns different discriminative features? One way to shed light on that question is to see if images that fool one DNN also fool another.
+
+To test that, we evolved CPPN-encoded images with one DNN (DNN-A)and then input these images to another DNN (DNN-B). We tested two cases:
+1. DNN-A and DNN-B have identical architectures and training, and differ only in their randomized weight initializations
+2. DNN-A and DNN-B have different DNN architectures, but are trained on the same dataset.
+
+We performed this test for both MNIST and ImageNet DNNs. Images were evolved that are given >= 99.99% confidence scores by bothDNN-A and DNN-B. Thus, some general properties of the DNNs are exploited by the CPPN-encoded EA. However, there are also images specifically fine-tuned to score high on DNN-A, but not on DNN-B. See the supplementary material for more detail and data.
+
+### Retraining Networks to recognize fooling images
+One might respond to the result that DNNs are easily fooled by saying that, while DNNs are easily fooled when images are optimized to produce high DNN confidence scores, the problem could be solved by simply changing the training dataset to include negative examples. In other words, a network could be retrained and told that the images that previously fooled it should not be considered members of any of the original classes, but instead should be recognized as a new “fooling images” class.
+
+We tested that hypothesis with CPPN-encoded images on both MNIST and ImageNet DNNs. The process is as follows:
+   - Train DNN1 on a dataset (e.g. ImageNet), then evolve CPPN images that produce a high confidence score for DNN1 for the `n` classes in the dataset
+   - Take those images and add them to the dataset in a new class `n+1`
+   - Train DNN2 on this enlarged "+1" dataset
+   - Repeat the process (optional), but put the images that evolved for DNN2 in the `n+1` category (a `n+2` category is unnecessary because any images that fool a DNN are “fooling images” and can thus go in the `n+1` category).
+  
+Specifically, to represent different types of images, for each iteration, we add `m` images to this `n+1` category. These `m` images are randomly sampled from both the first and last generations of multiple runs of evolution that produce high confidence images for DNNi. Each evolution run on MNIST or ImageNet produces 20 and 2000 images respectively, with half from the first generation and half from the last. Error-rates for trained DNNi are similar to DNN1 (supplementary material).
+
+#### MNIST DNNs vs ImageNet DNNs
+The immunity of LeNet (MNIST DNN) is not boosted by retraining it with fooling images as negative examples. Evolution still produces many unrecognizable images for DNN2 with confidence scores of 99.99% (Fig. 11). For ImageNet models, evolution was less able to evolve high confidence images for DNN2 than DNN1. The median confidence score significantly decreased from 88.1% for DNN1 to 11.7% for DNN2 (Fig. 12, p<0.0001 via Mann-Whitney U test).
+
+|![Figure 11](/Fooling&#32;Deep&#32;Neural&#32;Networks/Deep&#32;Neural&#32;Networks&#32;are&#32;Easily&#32;Fooled:High&#32;Confidence&#32;Predictions&#32;for&#32;Unrecognizable&#32;Images/images/fig11.png)|
+|:--:|
+|Figure 11|
+
+|![Figure 12](/Fooling&#32;Deep&#32;Neural&#32;Networks/Deep&#32;Neural&#32;Networks&#32;are&#32;Easily&#32;Fooled:High&#32;Confidence&#32;Predictions&#32;for&#32;Unrecognizable&#32;Images/images/fig12.png)|
+|:--:|
+|Figure 12|
+
+We suspect that ImageNet DNNs were better inoculated against being fooled than MNIST DNNs when trained with negative examples because it is easier to learn to tell CPPN images apart from natural images than it is to tell CPPN images from MNIST digits. **Though I do not believe this..**
+
+To see whether this DNN2 had learned features specific to the CPPN images that fooled DNN1, or whether DNN2 learned features general to all CPPN images, even recognizable ones, we input recognizable CPPN images from Picbreeder.org to DNN2. These are the images that DNN2 isn't trained on. DNN2 correctly labeled 45 of 70 (64%, top-1 prediction) PicBreeder images as CPPN images, despite having never seen CPPN images like them before. **The retrained model thus learned features generic to CPPN images, helping to explain why producing new images that fool DNN2 is more difficult.**
+
+### Generating fooling images via gradient ascent
+A different way to produce high confidence, yet mostly unrecognizable images is by using gradient ascent in pixel space [12, 11, 1]. We calculate the gradient of the posterior probability for a specific class - here, a softmax output unit of the DNN - with respect to the input image using backprop, and then we follow the gradient to increase a chosen unit’s activation. This technique follows [11], but whereas we aim to find images that produce high confidence classifications, they sought visually recognizable "class appearance models". By employing L2-regularization, they produced images with some recognizable features of classes (e.g. dog faces, fox ears, and cup handles). However, their confidence values are not reported, so to determine the degree to which DNNs are fooled by these backpropagated images, we replicated their work (with some minor changes, see supplementary material) and found that images can be made that are also classified by DNNs with 99.99% confidence, despite them being mostly unrecognizable (Fig. 13). These optimized images reveal a third method of fooling DNNs that produces qualitatively different examples than the two evolutionary methods in this paper.
+
+|![Figure 13](/Fooling&#32;Deep&#32;Neural&#32;Networks/Deep&#32;Neural&#32;Networks&#32;are&#32;Easily&#32;Fooled:High&#32;Confidence&#32;Predictions&#32;for&#32;Unrecognizable&#32;Images/images/fig13.png)|
+|:--:|
+|Figure 13|
 
 ## For more information
 1. Official Website - http://www.evolvingai.org/fooling
@@ -191,10 +239,15 @@ Confidence scores for images were averaged over 10 crops (1 center, 4 corners an
 3. PicBreeder - http://picbreeder.org/
 4. Sferes evolutionary computation framework - https://github.com/sferes2/sferes2 
 
+## Topics to look at
+1. Mann-Whitney U test
+
 ## Things I learned on how to read a paper
 1. If you can't understand the process, just skip that part for a while. Process is only important when you want to implement it.
 2. Observations/Results are the most important part of a paper. They are also the most interesting.
 
 ## English Vocabulary
-1. albeit - though. 
+1. albeit - though
 2. ablation - removal
+3. ameliorate - make (something bad or unsatisfactory) better
+4. inoculate - vaccinate
