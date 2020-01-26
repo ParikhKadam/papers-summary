@@ -21,9 +21,15 @@ http://www.evolvingai.org/files/DNNsEasilyFooled_cvpr15.pdf
 8. J. E. Auerbach. Automated evolution of interesting images. In Artificial Life 13, number EPFL-CONF-191282.MIT Press, 2012.
    - IDK (Need to read it)
 9. K. Deb. Multi-objective optimization using evolutionary algorithms, volume 16. John Wiley & Sons, 2001.
+    - IDK (Need to read it)
 10. I. Biederman. Visual object recognition, volume 2. MIT press Cambridge, 1995.
+    - IDK (Need to read it)
 11. K. Simonyan, A. Vedaldi, and A. Zisserman. Deep inside convolutional networks: Visualising image classification models and saliency maps. arXiv preprint arXiv:1312.6034, 2013.
+    - IDK (Need to read it)
 12. D. Erhan, Y. Bengio, A. Courville, and P. Vincent. Visualizing higher-layer features of a deep network. Dept. IRO, Universit ́e de Montr ́eal, Tech. Rep, 2009.
+    - IDK (Need to read it)
+13. J. Yosinski, J. Clune, Y. Bengio, and H. Lipson. How transferable are features in deep neural networks? In Z. Ghahramani, M. Welling, C. Cortes, N. Lawrence, and K. Weinberger, editors, Advances in Neural Information ProcessingSystems 27, pages 3320–3328. Curran Associates, Inc., Dec.2014.
+    - IDK (Need to read it)
 
 ## Introduction
 It is easy to produce images that are completely unrecognizable to humans (Fig. 1), but that state-of-the-art DNNs believe to be recognizable objects with over 99% confidence (e.g. labeling with certainty that TV static (refers to black and white dots screen on TV) is a motorcycle).
@@ -233,6 +239,19 @@ A different way to produce high confidence, yet mostly unrecognizable images is 
 |:--:|
 |Figure 13|
 
+## Discussion
+
+### Generative vs Discriminative models
+**Generative models are hard to fool as compared to discriminative models.**
+
+A generative model represents the complete joint density `p(y,X)`. Hence it not only computes `p(y|X)`, but also `p(X)`. Such models are more difficult to fool because fooling images could be recognized by their low marginal probability `p(X)`. Here, `p(y|X)` represents the probability of target class `y`, given an input image `X`. And `p(X)` represents the probability that an image `X` exists (in the dataset). Hence, the DNN’s confidence in a label prediction for such images could be discounted when `p(X)` is low, and `p(X)` will always be low for such generated images.
+
+### Visualizing DNNs
+The CPPN EA presented can also be considered a novel technique to visualize the features learned by DNNs. The diversity of patterns generated for the same class over different runs (Fig. 9) indicates the diversity of features learned for that class. Such feature-visualization tools help researchers understand what DNNs have learned and whether features can be transferred to other tasks [13]
+
+### Security
+Such false positives could be exploited wherever DNNs are deployed for recognizing images or other types of data. For example, one can imagine a security camera that relies on face or voice recognition being compromised. Swapping white-noise for a face, fingerprints, or a voice might be especially pernicious since other humans nearby might not recognize that someone is attempting to compromise the system. Another area of concern could be image-based search engine rankings: background patterns that a visitor does not notice, could fool a DNN-driven search engine into thinking a page is about an altogether different topic. 
+
 ## For more information
 1. Official Website - http://www.evolvingai.org/fooling
 2. Genetic/Evolutionary Algorithms - https://github.com/ParikhKadam/genetic-or-evolutionary-algorithms
@@ -251,3 +270,4 @@ A different way to produce high confidence, yet mostly unrecognizable images is 
 2. ablation - removal
 3. ameliorate - make (something bad or unsatisfactory) better
 4. inoculate - vaccinate
+5. pernicious - having a harmful effect
