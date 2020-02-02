@@ -34,14 +34,14 @@ http://www.evolvingai.org/files/DNNsEasilyFooled_cvpr15.pdf
 ## Introduction
 It is easy to produce images that are completely unrecognizable to humans (Fig. 1), but that state-of-the-art DNNs believe to be recognizable objects with over 99% confidence (e.g. labeling with certainty that TV static (refers to black and white dots screen on TV) is a motorcycle).
 
-|![Figure 1](images/fig1.jpg)
-
-Figure 1
+|![Figure 1](images/fig1.jpg)|
+|:--:|
+|Figure 1|
 
 ___
 
-### Comparison with| [1]
-This differs from [1] in a sense that, in [1] they modified the pixels of a lion image (the image contained a legit object) and the network misclassified it as library. Whereas, in| this paper|, the authors take a **garbage image** i.e. image with black and white dots (no legit object), and the **model classifies it as a motorcycle**.
+### Comparison with [1]
+This differs from [1] in a sense that, in [1] they modified the pixels of a lion image (the image contained a legit object) and the network misclassified it as library. Whereas, in this paper, the authors take a **garbage image** i.e. image with black and white dots (no legit object), and the **model classifies it as a motorcycle**.
 
 Not only garbage image, but the authors also try on regular images, i.e. images with certain type of patterns as you will see below.
 
@@ -81,12 +81,11 @@ EAs are optimization algorithms inspired by Darwinian evolution (the theory of e
 To know more about these terms, visit the link of genetic algorithms provided in [For more information](#for-more-information) section of this file.
 
 |![Figure 2](images/fig2.png)
-
-Figure 2
+|:--:|
+|Figure 2|
 
 The EA mentioned in [2|] optimize solutions to perform well on one objective or on a small set of objectives (e.g. evolving images to match a single ImageNet class).
-|:--:|
-|So,| we use a new algorithm called **the multi-dimensional archive of phenotypic elites MAP-Elites** [3], which enables us to simultaneously evolve a population that contains individuals that score well on many classes (e.g. all 1000 ImageNet classes).
+So, we use a new algorithm called **the multi-dimensional archive of phenotypic elites MAP-Elites** [3], which enables us to simultaneously evolve a population that contains individuals that score well on many classes (e.g. all 1000 ImageNet classes).
 
 **Fitness** is determined by showing the image to the DNN; if the image generates a higher prediction score (probability) **for any class** than has been seen before, the newly generated individual (image) becomes the champion in the archive **for that class**.
 

@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "MNIST",
+        "anns",
         "argmax",
         "autoencoder",
         "backpropagation",
@@ -8,6 +9,7 @@
         "convolutional",
         "hyperparameters",
         "invariances",
-        "rnns"
+        "rnns",
+        "softmax"
     ]
 }
