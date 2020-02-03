@@ -12,7 +12,9 @@ https://arxiv.org/pdf/1312.6199.pdf
     - IDK (Need to read it)
 5. Dumitru Erhan, Yoshua Bengio, Aaron Courville, and Pascal Vincent. Visualizing higher-layer features of a deep network. Technical Report 1341, University of Montreal, June 2009. Also presented at the ICML 2009 Workshop on Learning Feature Hierarchies, Montr ́eal, Canada.
     - IDK (Need to read it)
-6. 
+6. Alex Krizhevsky, Ilya Sutskever, and Geoff Hinton. Imagenet classification with deep convolutional neural networks. In Advances in Neural Information Processing Systems 25, pages 1106–1114, 2012.
+    - IDK (Need to read it)
+7. 
 
 ## Introduction
 This paper concludes two different properties of neural networks:
@@ -41,7 +43,7 @@ Though, my views are a little bit different:
 
 ## Work
 
-### Formulation
+### Capturing Semantics - Single unit vs. Combination of units
 Traditional computer vision systems rely on **feature extraction**. Often a single feature is easily interpretable. This allows one to inspect the individual coordinates of the **feature space**, and link them back to meaningful variations in the input domain. This means, change a few values in feature vector and propagate the changes back to input. In an intuitive way, it is nothing but changing a few values in an image feature vector and propagating the changes back into network to generate an image from this feature vector. The generated image is said to have the features represented by this feature vector.
 
 Similar reasoning was used in previous work that attempted to analyze neural networks that were applied to computer vision problems. These works interpret an **activation of a hidden unit as a meaningful feature** (features extracted by intermediate layer(s)/unit(s)). They look for input images which maximize the activation value of this single feature [1, 2, 3, 5].
@@ -93,6 +95,53 @@ In general, imperceptibly tiny perturbations of a given image do not normally ch
 
 Our main result is that for deep neural networks, the above statement does not hold. Specifically, we show that by using a simple optimization procedure,we are able to find adversarial examples, which are obtained by imperceptibly small perturbations to a correctly classified input image, so that it is no longer classified correctly.
 
+In some sense, what we describe is a way to traverse the manifold represented by the network in an efficient way (by optimization) and finding adversarial examples in the input space. The adversarial examples represent low-probability (high-dimensional) "pockets" in the manifold, which are hard to efficiently find by simply randomly sampling the input around a given example. Already, a variety of recent state of the art computer vision models employ input deformations during training for increasing the robustness and convergence speed of the models [6, 3]. These deformations are, however, statistically inefficient, for a given example: they are highly correlated and are drawn from the same distribution throughout the entire training of the model. We propose a scheme to make this process adaptive in a way that exploits the model and its deficiencies in modeling the local space around the training data.
+
+#### Comparison with Hard-Negative Mining
+Hard-negative mining, in computer vision, consists of identifying training set examples (or portions thereof) which are given low probabilities by the model, but which should be high probability instead, cf. [5]. The training set distribution is then changed to emphasize such hard negatives and a further round of model training is performed. As shall be described, the optimization problem proposed in this work can also be used in a constructive way, similar to the hard-negative mining principle. That is, first identify such adversarial examples and retrain neural networks on the these.
+
+## Diving Deeper into Blind Spots
+
+### Observations
+1. For all the networks we studied (MNIST, QuocNet, AlexNet), for each sample, we have always managed to generate very close, visually hard to distinguish, adversarial examples that are misclassified by the original network.
+2. **Cross model generalization**: a relatively large fraction of examples will be misclassified by networks trained from scratch with different hyper-parameters (number of layers, regularization or initial weights).
+3. **Cross training-set generalization**: a relatively large fraction of examples will be misclassified by networks trained from scratch on a disjoint training set.
+
+### Spectral Analysis of Instability
+This section describes a **proof for the 1st observation as well as method to control such adversaries**.
+
+Mathematically, if `φ(x)` denotes the output of a network of `K` layers corresponding to input `x` and trained parameters `W`, we write `φ(x) = φk(φk−1(...φ1(x;W1);W2)...;WK)`, where `φk` denotes the operator mapping layer `k−1` to layer `k`. The unstability of `φ(x)` can be explained by inspecting the upper Lipschitz constant of each layer `k=  1...K`, defined as the constantL `k>0` such that `∀x,r ‖φk(x;Wk) − φk(x+r;Wk)‖ <= Lk‖r‖`
+
+To understand it further, we will need to understand the Lipschitz constant.
+
+#### Lipschitz constant
+....
+___
+
+The resulting network thus satisfies `‖φ(x) − φ(x+r)‖ ≤ L‖r‖, with L = ∏ k=1toK Lk`.
+
+#### Lipschitz constant for nested functions
+....
+___
+
+#### Contractive functions
+....
+___
+
+#### Analysis of relu
+....
+___
+
+#### Analysis of maxpool
+....
+___
+
+#### Analysis of convolution
+....
+___
+
+These results are consistent with the existence of blind spots constructed in the previous section, but they **don’t attempt to explain why these examples generalize across different hyperparameters or training sets**. We emphasize that we compute upper bounds: large bounds do not automatically translate into existence of adversarial examples; however, small bounds guarantee that no such examples can appear. This suggests **a simple regularization of the parameters, consisting in penalizing each upper Lipschitz bound, which might help improve the generalisation error of the networks**.
+
 ## Unsolved queries (may or may not be a part of this paper but are obviously related to it)
 1. The tiny network I trained on MNIST, achieves high accuracy (~96%) when weights of the network are initialized with a random seed of 42. But yields a low value (~76%) when a seed isn't provided. Also, observations without providing seed are also interesting. Creating and training the model for the first time achieves a low accuracy, but **recreating it from scratch** and training the same architecture again, yields an accuracy score of ~95%. I haven't dedicated much time for looking into this (but will do it for sure). But for now, I just have a query in mind. Why is the training **highly** dependent on weights initialization? **Are our optimizers efficient?**
 
@@ -108,5 +157,6 @@ Our main result is that for deep neural networks, the above statement does not h
 2. 
 
 ## English Vocabulary
-1. perturbation - change/modification (in mathematics)
-2. vicinity - neighborhood
+1. intriguing - arousing one's curiosity or interest; fascinating.
+2. perturbation - change/modification (in mathematics)
+3. vicinity - neighborhood
