@@ -110,26 +110,108 @@ Hard-negative mining, in computer vision, consists of identifying training set e
 ### Spectral Analysis of Instability
 This section describes a **proof for the 1st observation as well as method to control such adversaries**.
 
-Mathematically, if `φ(x)` denotes the output of a network of `K` layers corresponding to input `x` and trained parameters `W`, we write `φ(x) = φk(φk−1(...φ1(x;W1);W2)...;WK)`, where `φk` denotes the operator mapping layer `k−1` to layer `k`. The unstability of `φ(x)` can be explained by inspecting the upper Lipschitz constant of each layer `k=  1...K`, defined as the constantL `k>0` such that `∀x,r ‖φk(x;Wk) − φk(x+r;Wk)‖ <= Lk‖r‖`
+Mathematically, if `φ(x)` denotes the output of a network of `K` layers corresponding to input `x` and trained parameters `W`, we write `φ(x) = φk(φk−1(...φ1(x;W1);W2)...;WK)`, where `φk` denotes the operator mapping layer `k−1` to layer `k`. The unstability of `φ(x)` can be explained by inspecting the upper Lipschitz constant of each layer `k=  1...K`, defined as the constantL `k>0` such that `∀x,r ‖φk(x;Wk) − φk(x+r;Wk)‖ <= Lk * ‖r‖`
 
 To understand it further, we will need to understand the Lipschitz constant.
 
 #### Lipschitz constant
-....
+In mathematical analysis, Lipschitz continuity, named after Rudolf Lipschitz, is a strong form of uniform continuity for functions. Intuitively, a **Lipschitz continuous function is limited in how fast it can change**: **there exists a real number such that, for every pair of points on the graph of this function, the absolute value of the slope of the line connecting them is not greater than this real number**; the smallest such bound is called the Lipschitz constant of the function (or modulus of uniform continuity).
+
+Also, a continuous differentiable function is always Lipschitz continuous.
+
+Given two metric spaces `(X, dX)` and `(Y, dY)`, where `dX` denotes the metric (i.e. distance function) on the set `X` and `dY` is the metric on set `Y`, a function `f : X → Y` is called Lipschitz continuous if there exists a real constant `K ≥ 0` such that, for all `x1` and `x2` in `X`,
+
+`dY(f(x1), f(x2)) ≤ K dX(x1, x2)` where, `dY(f(x1), f(x2))` represents the distance between `f(x1)` and `f(x2)` and `dX(x1, x2)` represents the distnace between `x1` and `x2`.
+
+Any such `K` is referred to as a Lipschitz constant for the function `f`. The smallest constant is sometimes called the (best) Lipschitz constant; however, in most cases, the latter notion is less relevant. If `K = 1` the function is called a **short map**, and if `0 ≤ K < 1` and f maps a metric space to itself, the function is called a `contraction`.
+
+In particular, a real-valued function `f : R → R` is called Lipschitz continuous if there exists a positive real constant `K` such that, for all real `x1` and `x2`,
+
+`|f(x1) − f(x2)| ≤ K |x1 − x2|`
+
+In this case, `Y` is the set of real numbers `R` with the standard metric `dY(y1, y2) = |y1 − y2|`, and `X` is a subset of `R`.
+
+In general, the inequality is (**trivially**) satisfied if `x1 = x2`. Otherwise, one can equivalently define a function to be Lipschitz continuous if and only if there exists a constant `K ≥ 0` such that, `for all x1 ≠ x2`,
+
+`dY(f(x1) , f(x2)) / dX(x1 , x2) ≤ K`
+
 ___
 
-The resulting network thus satisfies `‖φ(x) − φ(x+r)‖ ≤ L‖r‖, with L = ∏ k=1toK Lk`.
+The resulting network thus satisfies `‖φ(x) − φ(x+r)‖ ≤ L * ‖r‖, with L = ∏ k=1toK Lk`.
 
 #### Lipschitz constant for nested functions
-....
+The above result can be derived for nested Lipschitz function calls.
+
+Take two functions `f : X → Y` and `g : Y → Z`. Now, suppose that,
+
+`dY(f(x1) , f(x2)) / dX(x1 , x2) ≤ L1`
+
+and
+
+`dZ(g(y1) , g(y2)) / dY(y1 , y2) ≤ L2`,
+
+then
+
+```
+dZ(g(y1) , g(y2)) / dX(x1 , x2)
+= ( dZ(g(y1) , g(y2)) / dX(x1 , x2) ) * ( dY(y1 , y2) / dY(y1 , y2) )
+= ( dZ(g(y1) , g(y2)) / dY(y1 , y2) ) * ( dY(y1 , y2) / dX(x1 , x2) )
+≤ L2 * ( dY(y1 , y2) / dX(x1 , x2) )
+≤ L2 * ( dY(f(x1) , f(x2)) / dX(x1 , x2) )
+≤ L2 * L1
+```
 ___
 
-#### Contractive functions
-....
+Remember that, we assumed `φ(x)` as the output of a network of `K` layers corresponding to input `x` and trained parameters `W`, i.e. `φ(x) = φk(φk−1(...φ1(x;W1);W2)...;WK)`. Hence, using the above proof, we get `‖φ(x) − φ(x+r)‖ ≤ L * ‖r‖, with L = ∏ k=1toK Lk`. Here, `∏` denotes product.
+
+#### Contractive mapping (functions)
+In mathematics, a contraction mapping, or contraction or contractor, on a metric space `(M,d)` is a **function f from M to itself**, with the property that there is some nonnegative real number `0 ≤ k < 1` such that for all `x` and `y` in `M`,
+
+`d(f(x) , f(y)) ≤ k * d(x , y)
+
+The thing to note is the range of k i.e. **0 ≤ k < 1**.
+
+___
+
+#### Short Map / Non-expansive mapping
+If `k = 1` in a Lipschitz mapping, then it is called a non-expansive mapping. Note that for contractive mapping, **k < 1**.
+
+___
+
+#### Fixed Point
+In mathematics, a fixed point (sometimes shortened to fixpoint, also known as an invariant point) of a function is an element of the function's domain that is mapped to itself by the function. That is to say, **c is a fixed point of the function f if f(c) = c**. This means `f(f(...f(c)...)) = f n(c) = c`, an important terminating consideration when recursively computing f. A set of fixed points is sometimes called a fixed set. 
+
+For example, if f is defined on the real numbers by
+
+`f(x) = x^2 − 3x + 4`
+
+then 2 is a fixed point of f, because f(2) = 2. 
+
+**Not all functions have fixed points**: for example, if f is a function defined on the real numbers as f(x) = x + 1, then it has no fixed points, since x is never equal to x + 1 for any real number. In graphical terms, a fixed point x means the **point (x, f(x)) is on the line y = x**, or in other words the graph of f has a point in common with that line. 
+
+**Points that come back to the same value after a finite number of iterations of the function are called periodic points**. A fixed point is a periodic point with period equal to one. In projective geometry, a fixed point of a projectivity has been called a **double point**.
+
+___
+
+#### Attractive fixed points
+An attractive fixed point of a function f is a fixed point x0 of f such that **for any value of x** in the domain that is close enough to x0, the iterated function sequence
+
+`x, f(x) , f(f(x)), f(f(f(x))), ...`
+
+**converges to x0**. An expression of prerequisites and proof of the existence of such solution is given by the [Banach fixed-point theorem](https://en.wikipedia.org/wiki/Banach_fixed-point_theorem).
+
+___
+
+So, why did we study all these things? We will look at it's use in this paper in a small time. But the reason we studied fixed points is here..
+
+#### Property of Contractive Mapping
+**A contraction mapping has at most one fixed point**. Moreover, the [Banach fixed-point theorem](https://en.wikipedia.org/wiki/Banach_fixed-point_theorem) states that every contraction mapping on a nonempty complete metric space has a unique fixed point, and that for any x in M the iterated function sequence x, f(x), f(f(x)), f(f(f(x))), ... converges to the fixed point. 
+
 ___
 
 #### Analysis of relu
-....
+
+
 ___
 
 #### Analysis of maxpool
@@ -154,7 +236,10 @@ These results are consistent with the existence of blind spots constructed in th
 
 ## Referennces
 1. Intriguing properties of neural networks - https://stats.stackexchange.com/questions/371564/intriguing-properties-of-neural-networks
-2. 
+2. Lipschitz constant - https://en.wikipedia.org/wiki/Lipschitz_continuity
+3. Metric - https://en.wikipedia.org/wiki/Metric_(mathematics)
+4. Contraction Mapping - https://en.wikipedia.org/wiki/Contraction_mapping
+5. Fixed point - https://en.wikipedia.org/wiki/Fixed_point_(mathematics)
 
 ## English Vocabulary
 1. intriguing - arousing one's curiosity or interest; fascinating.

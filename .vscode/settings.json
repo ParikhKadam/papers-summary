@@ -10,6 +10,10 @@
         "generalisation",
         "hyperparameters",
         "invariances",
+        "lipschitz",
+        "maxpool",
+        "projectivity",
+        "relu",
         "rnns",
         "softmax"
     ]
