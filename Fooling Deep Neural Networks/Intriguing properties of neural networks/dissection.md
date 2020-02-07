@@ -210,8 +210,7 @@ So, why did we study all these things? We will look at it's use in this paper in
 ___
 
 #### Analysis of relu
-
-
+....
 ___
 
 #### Analysis of maxpool
