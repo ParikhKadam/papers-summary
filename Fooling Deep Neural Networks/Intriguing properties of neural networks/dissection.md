@@ -81,19 +81,22 @@ We used the MNIST test set for `I`. Figure 1 shows images that maximize the acti
 
 This suggests that **the natural basis is not better than a random basis** for inspecting the properties of `φ(x)`. 
 
-### Non-local generalization
+### Blind Spots in ANNs
+
+#### Non-local generalization
 It means that the algorithm should be able to provide good generalizations even for inputs that are far from those it has seen during training. It should be able to generalize to new combinations of the underlying concepts that explain the data. Nearest-neighbor methods and related ones like kernel SVMs and decision trees can only generalize in some neighborhood around the training examples, in a way that is simple (like linear interpolation or linear extrapolation). Because the number of possible configurations of the underlying concepts that explain the data is exponentially large, this kind of generalization is good but not sufficient at all. **Non-local generalization refers to the ability to generalize to a huge space of possible configurations of the underlying causes of the data, potentially very far from the observed data**, going beyond linear combinations of training examples that have been seen in the neighborhood of the given input.
 
-### Blind Spots in ANNs
+___
+
 Generally speaking, the output layer unit of a neural network is a highly nonlinear function of its input. When it is trained with the cross-entropy loss (using the Softmax activation function), it represents a conditional distribution of the label given the input (and the training set presented so far).
 
-**It has been argued [6] that the deep stack of non-linear layers in between the input and the output unit of a neural network are a way for the model to encode anon-local generalization prior over the input space**. In other words, it is assumed that is possible for the output unit to assign non-significant (and, presumably, non-epsilon) probabilities to **regions of the input space that contain no training examples in their vicinity**. Such regions can represent, for instance, the same objects from different view points, which are relatively far (in pixel space), but which share nonetheless both the label and the statistical structure of the original inputs.
+**It has been argued [6] that the deep stack of non-linear layers in between the input and the output unit of a neural network are a way for the model to encode a non-local generalization prior over the input space**. In other words, it is assumed that is possible for the output unit to assign non-significant (and, presumably, non-epsilon) probabilities to **regions of the input space that contain no training examples in their vicinity**. Such regions can represent, for instance, the same objects from different view points, which are relatively far (in pixel space), but which share nonetheless both the label and the statistical structure of the original inputs.
 
 Hence, if we consider local generalization here, it is implicit that the model will assign high probability to the images in the vicinity of a particular image. And this high probability will be assigned to the class to which that particular image (whose neighborhood is being examined) belongs. It can be written mathematically as, for a small enough radius `ε > 0` in the vicinity of a given training input `x`, an `x+r` satisfying `||r|| < ε` will get assigned a high probability of the correct class by the model.
 
 In general, imperceptibly tiny perturbations of a given image do not normally change the underlying class. Why? Because of local generalization.
 
-Our main result is that for deep neural networks, the above statement does not hold. Specifically, we show that by using a simple optimization procedure,we are able to find adversarial examples, which are obtained by imperceptibly small perturbations to a correctly classified input image, so that it is no longer classified correctly.
+**Our main result is that for deep neural networks, the above statement does not hold.** Specifically, we show that by using a simple optimization procedure,we are able to find adversarial examples, which are obtained by imperceptibly small perturbations to a correctly classified input image, so that it is no longer classified correctly.
 
 In some sense, what we describe is a way to traverse the manifold represented by the network in an efficient way (by optimization) and finding adversarial examples in the input space. The adversarial examples represent low-probability (high-dimensional) "pockets" in the manifold, which are hard to efficiently find by simply randomly sampling the input around a given example. Already, a variety of recent state of the art computer vision models employ input deformations during training for increasing the robustness and convergence speed of the models [6, 3]. These deformations are, however, statistically inefficient, for a given example: they are highly correlated and are drawn from the same distribution throughout the entire training of the model. We propose a scheme to make this process adaptive in a way that exploits the model and its deficiencies in modeling the local space around the training data.
 
@@ -108,9 +111,11 @@ Hard-negative mining, in computer vision, consists of identifying training set e
 3. **Cross training-set generalization**: a relatively large fraction of examples will be misclassified by networks trained from scratch on a disjoint training set.
 
 ### Spectral Analysis of Instability
-This section describes a **proof for the 1st observation as well as method to control such adversaries**.
+This section describes a **proof for the 1st observation (only) as well as method to control such adversaries**.
 
 Mathematically, if `φ(x)` denotes the output of a network of `K` layers corresponding to input `x` and trained parameters `W`, we write `φ(x) = φk(φk−1(...φ1(x;W1);W2)...;WK)`, where `φk` denotes the operator mapping layer `k−1` to layer `k`. The unstability of `φ(x)` can be explained by inspecting the upper Lipschitz constant of each layer `k=  1...K`, defined as the constantL `k>0` such that `∀x,r ‖φk(x;Wk) − φk(x+r;Wk)‖ <= Lk * ‖r‖`
+
+The resulting network thus satisfies `‖φ(x) − φ(x+r)‖ ≤ L * ‖r‖, with L = ∏ k=1toK Lk`.
 
 To understand it further, we will need to understand the Lipschitz constant.
 
@@ -121,7 +126,7 @@ Also, a continuous differentiable function is always Lipschitz continuous.
 
 Given two metric spaces `(X, dX)` and `(Y, dY)`, where `dX` denotes the metric (i.e. distance function) on the set `X` and `dY` is the metric on set `Y`, a function `f : X → Y` is called Lipschitz continuous if there exists a real constant `K ≥ 0` such that, for all `x1` and `x2` in `X`,
 
-`dY(f(x1), f(x2)) ≤ K dX(x1, x2)` where, `dY(f(x1), f(x2))` represents the distance between `f(x1)` and `f(x2)` and `dX(x1, x2)` represents the distnace between `x1` and `x2`.
+`dY(f(x1), f(x2)) ≤ K dX(x1, x2)` where, `dY(f(x1), f(x2))` represents the distance between `f(x1)` and `f(x2)` and `dX(x1, x2)` represents the distance between `x1` and `x2`.
 
 Any such `K` is referred to as a Lipschitz constant for the function `f`. The smallest constant is sometimes called the (best) Lipschitz constant; however, in most cases, the latter notion is less relevant. If `K = 1` the function is called a **short map**, and if `0 ≤ K < 1` and f maps a metric space to itself, the function is called a `contraction`.
 
@@ -137,9 +142,9 @@ In general, the inequality is (**trivially**) satisfied if `x1 = x2`. Otherwise,
 
 ___
 
-The resulting network thus satisfies `‖φ(x) − φ(x+r)‖ ≤ L * ‖r‖, with L = ∏ k=1toK Lk`.
-
 #### Lipschitz constant for nested functions
+Final result: `‖φ(x) − φ(x+r)‖ ≤ L * ‖r‖, with L = ∏ k=1toK Lk`.
+
 The above result can be derived for nested Lipschitz function calls.
 
 Take two functions `f : X → Y` and `g : Y → Z`. Now, suppose that,
@@ -209,22 +214,63 @@ So, why did we study all these things? We will look at it's use in this paper in
 
 ___
 
+Now, getting back to the result and understanding it. `‖φ(x) − φ(x+r)‖ ≤ L * ‖r‖, with L = ∏ k=1toK Lk`
+
+**The formulation above can be interpreted as, for an input image `x` and another input image `x+r`, the difference in final activations of a stack of layers, normalized by the distance between these two images in the image (input) space, is bounded by `L`, where `L` is the product of Lipschitz constants of the activation functions of each layer in the stack. **
+
+Hence, **if Lk > 1 for k=1 to K, then as the depth of network increases, the instability increases too**, because the product of Lk for k=1 to K is going to increase, and hence, the normalized difference between activations **gets a chance** to increase too.
+
+There's a difference between, getting a chance to increase and, increase.
+
 #### Analysis of relu
-....
+A half-rectified activation (for both convolutional or fully connected) is defined by the mapping `φk(x;Wk,bk) = max(0,Wkx+bk)`. Let `‖W‖` denote the operator norm of `W` (i.e., **its largest singular value**). Since the **non-linearity ρ(x) = max(0,x) is contractive**, i.e. satisfies `‖ρ(x)−ρ(x+r)‖ ≤ ‖r‖` for all x,r; it follows that
+
+`‖φk(x;Wk) − φk(x+r;Wk)‖ = ‖max(0,Wkx+bk) − max(0,Wk(x+r)+bk)‖ ≤ ‖Wk*r‖ ≤ ‖Wk‖ * ‖r‖`
+
+, and hence `Lk ≤ ‖Wk‖`.
+
+I will make some minor modifications to the author's statements, analyse the relu activation and then understand what this concludes.
+
+Let's look at the plot of relu.
+
+|![Rectified Linear Unit](/Fooling&#32;Deep&#32;Neural&#32;Networks/Intriguing&#32;properties&#32;of&#32;neural&#32;networks/images/relu1.png)|
+|:--:|
+|Rectified Linear Unit|
+
+Note that for any two points x1 and x2, such that `x1, x2 >= 0`, `(||relu(x1) - relu(x2)||) / (||x1 - x2||) = 1`. Also, in case when `x1 < 0 and x2 >= 0`, `(||relu(x1) - relu(x2)||) / (||x1 - x2||) < 1`.
+
+Hence, it means relu is **either contractive or non-expansive** based on the values of input. 
+
+Now that we know that Lipschitz constant for relu is <=1 (i.e. **relu won't cause any instability in the model, but will try to reduce it in cases where L < 1**), let's go further.
+
+But, relu is applied on either convolution or dense layer. So, let's calculate the Lipschitz constant for these. Let's `w` represent the weights of convolution and fully connected layer. So, we generalized the problem to any layer with weights `w`. Let `L` represent the Lipschitz constant for the function `relu(f(x))`. We have already seen that, if Lipschitz constant of `relu(y)` is `L1` and Lipschitz constant of `f(x)` is `L2`, then `L = L1 * L2`.
+
+The authors said that the value of L2 here is `||w||` but I don't know why. To know how it is proved, read the paper. Hence, `||relu(f(x1)) - relu(f(x2)) <= ||w|| * 1 * ||x1 - x2||` i.e. `||relu(f(x1)) - relu(f(x2)) <= ||w|| * ||r||`.
+
 ___
 
 #### Analysis of maxpool
-....
+A max-pooling layer `φk` is contractive: `∀x, r, ‖φk(x) − φk(x+r)‖ ≤ ‖r‖`, since its Jacobian is a projection onto a subset of the input coordinates and hence does not expand the gradients.
+
+So, how is Jacobian related to contraction? I am copying the explanation from a stackoverflow post (link given in references section).
+
+At a very basic level, the eigenvectors of a matrix are the directions in which the action of the associated transformation is a simple scaling operation. The associated eigenvalues are the scale factors. By linearity, the overall action of the transformation can be described by a superposition of these “eigen-actions.” If we want the transformation to contract in every direction, then all of its eigenvalues must have absolute value less than unity.
+
+The Jacobian of a map at a point is the best linear approximation to the action of the map near that point and so, per the above explanation, **for the map to be a contraction, the eigenvalues of the Jacobian must have absolute values less than unity**.
+
 ___
 
-#### Analysis of convolution
-....
+#### Analysis of contrast normalization
+Skipping this part as contrast normalization isn't used anymore in CNNs.
+
 ___
 
 These results are consistent with the existence of blind spots constructed in the previous section, but they **don’t attempt to explain why these examples generalize across different hyperparameters or training sets**. We emphasize that we compute upper bounds: large bounds do not automatically translate into existence of adversarial examples; however, small bounds guarantee that no such examples can appear. This suggests **a simple regularization of the parameters, consisting in penalizing each upper Lipschitz bound, which might help improve the generalisation error of the networks**.
 
 ## Unsolved queries (may or may not be a part of this paper but are obviously related to it)
 1. The tiny network I trained on MNIST, achieves high accuracy (~96%) when weights of the network are initialized with a random seed of 42. But yields a low value (~76%) when a seed isn't provided. Also, observations without providing seed are also interesting. Creating and training the model for the first time achieves a low accuracy, but **recreating it from scratch** and training the same architecture again, yields an accuracy score of ~95%. I haven't dedicated much time for looking into this (but will do it for sure). But for now, I just have a query in mind. Why is the training **highly** dependent on weights initialization? **Are our optimizers efficient?**
+2. What are singular values of a matrix? How is it different from eigen values?
+3. Deeper networks perform better in practice, but according to this paper and the proof provided, the instability if network increases as they become deeper. So, maybe they learn more but also get confused more?
 
 ## For more information
 1. The Limitations of Adversarial Training and the Blind-Spot Attack - https://arxiv.org/pdf/1901.04684.pdf
@@ -239,6 +285,7 @@ These results are consistent with the existence of blind spots constructed in th
 3. Metric - https://en.wikipedia.org/wiki/Metric_(mathematics)
 4. Contraction Mapping - https://en.wikipedia.org/wiki/Contraction_mapping
 5. Fixed point - https://en.wikipedia.org/wiki/Fixed_point_(mathematics)
+6. How to know if a mapping is contractive - https://math.stackexchange.com/questions/2420107/what-is-the-link-between-contraction-mappings-and-the-eigenvalues-of-their-jacob 
 
 ## English Vocabulary
 1. intriguing - arousing one's curiosity or interest; fascinating.

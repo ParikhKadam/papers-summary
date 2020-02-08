@@ -7,6 +7,7 @@
         "backpropagation",
         "cnns",
         "convolutional",
+        "eigen",
         "generalisation",
         "hyperparameters",
         "invariances",
@@ -15,6 +16,7 @@
         "projectivity",
         "relu",
         "rnns",
-        "softmax"
+        "softmax",
+        "stackoverflow"
     ]
 }
