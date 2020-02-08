@@ -265,6 +265,10 @@ Skipping this part as contrast normalization isn't used anymore in CNNs.
 
 ___
 
+|![Table 5](/Fooling&#32;Deep&#32;Neural&#32;Networks/Intriguing&#32;properties&#32;of&#32;neural&#32;networks/images/table5.png)|
+|:--:|
+|Table 5|
+
 These results are consistent with the existence of blind spots constructed in the previous section, but they **don’t attempt to explain why these examples generalize across different hyperparameters or training sets**. We emphasize that we compute upper bounds: large bounds do not automatically translate into existence of adversarial examples; however, small bounds guarantee that no such examples can appear. This suggests **a simple regularization of the parameters, consisting in penalizing each upper Lipschitz bound, which might help improve the generalisation error of the networks**.
 
 ## Unsolved queries (may or may not be a part of this paper but are obviously related to it)
