@@ -27,7 +27,7 @@ A similar, but even stronger conclusion was reached recently by Mikolov et al. [
 
 Now, let's get to second one. Consider a state-of-the-art deep neural network that generalizes well on an object recognition task. We expect such network to be robust to small perturbations of its input, because small perturbation cannot change the object category of an image. However, we find that **applying an imperceptible non-random perturbation to a test image, it is possible to arbitrarily change the network’s prediction** (see figure 5). These perturbations are found by optimizing the input to maximize the prediction error (i.e using gradient ascent). Usually, we train a model by minimizing error and adjusting the weights. But here, we perturb an image by maximizing the error and adjusting the pixels of that image. We term the so perturbed examples “adversarial examples”.
 
-If we think of using gradient ascent this way, then one might expect that the adversarial examples generated this way might be unique to a particular neural network, because these examples are produced by maximizing the loss of that particular network. But it is not the case. The authors found that adversarial examples are relatively robust, and are **shared by neural networks with varied number of layers, activations or trained on different subsets of the training data**. That is,if we use one neural net to generate a set of adversarial examples, we find that these examples are still statistically hard for another neural network even when it was trained with different hyperparameters or, most surprisingly, when it was trained on a different set of examples.
+If we think of using gradient ascent this way, then one might expect that the adversarial examples generated this way might be unique to a particular neural network, because these examples are produced by maximizing the loss of that particular network. But it is not the case. The authors found that adversarial examples are relatively robust, and are **shared by neural networks with varied number of layers, activations or trained on different subsets of the training data**. That is, if we use one neural net to generate a set of adversarial examples, we find that these examples are still statistically hard for another neural network even when it was trained with different hyperparameters or, most surprisingly, when it was trained on a different set of examples.
 
 These results suggest that the deep neural networks that are learned by backpropagation have non-intuitive characteristics and intrinsic blind spots, whose structure is connected to the data distribution in a non-obvious way.
 
@@ -216,7 +216,7 @@ ___
 
 Now, getting back to the result and understanding it. `‖φ(x) − φ(x+r)‖ ≤ L * ‖r‖, with L = ∏ k=1toK Lk`
 
-**The formulation above can be interpreted as, for an input image `x` and another input image `x+r`, the difference in final activations of a stack of layers, normalized by the distance between these two images in the image (input) space, is bounded by `L`, where `L` is the product of Lipschitz constants of the activation functions of each layer in the stack. **
+**The formulation above can be interpreted as, for an input image `x` and another input image `x+r`, the difference in final activations of a stack of layers, normalized by the distance between these two images in the image (input) space, is bounded by `L`, where `L` is the product of Lipschitz constants of the activation functions of each layer in the stack.**
 
 Hence, **if Lk > 1 for k=1 to K, then as the depth of network increases, the instability increases too**, because the product of Lk for k=1 to K is going to increase, and hence, the normalized difference between activations **gets a chance** to increase too.
 
@@ -245,7 +245,7 @@ Now that we know that Lipschitz constant for relu is <=1 (i.e. **relu won't caus
 
 But, relu is applied on either convolution or dense layer. So, let's calculate the Lipschitz constant for these. Let's `w` represent the weights of convolution and fully connected layer. So, we generalized the problem to any layer with weights `w`. Let `L` represent the Lipschitz constant for the function `relu(f(x))`. We have already seen that, if Lipschitz constant of `relu(y)` is `L1` and Lipschitz constant of `f(x)` is `L2`, then `L = L1 * L2`.
 
-The authors said that the value of L2 here is `||w||` but I don't know why. To know how it is proved, read the paper. Hence, `||relu(f(x1)) - relu(f(x2)) <= ||w|| * 1 * ||x1 - x2||` i.e. `||relu(f(x1)) - relu(f(x2)) <= ||w|| * ||r||`.
+The authors said that the value of L2 here is `||w||` but I don't know why. To know how it is proved, read the paper. Hence, `||relu(f(x1)) - relu(f(x2))|| <= ||w|| * 1 * ||x1 - x2||` i.e. `||relu(f(x1)) - relu(f(x2))|| <= ||w|| * ||r||`.
 
 ___
 
@@ -274,7 +274,7 @@ These results are consistent with the existence of blind spots constructed in th
 ## Unsolved queries (may or may not be a part of this paper but are obviously related to it)
 1. The tiny network I trained on MNIST, achieves high accuracy (~96%) when weights of the network are initialized with a random seed of 42. But yields a low value (~76%) when a seed isn't provided. Also, observations without providing seed are also interesting. Creating and training the model for the first time achieves a low accuracy, but **recreating it from scratch** and training the same architecture again, yields an accuracy score of ~95%. I haven't dedicated much time for looking into this (but will do it for sure). But for now, I just have a query in mind. Why is the training **highly** dependent on weights initialization? **Are our optimizers efficient?**
 2. What are singular values of a matrix? How is it different from eigen values?
-3. Deeper networks perform better in practice, but according to this paper and the proof provided, the instability if network increases as they become deeper. So, maybe they learn more but also get confused more?
+3. Deeper networks perform better in practice, but according to this paper and the proof provided, the instability of network increases as they become deeper. So, maybe they learn more but also get confused more?
 
 ## For more information
 1. The Limitations of Adversarial Training and the Blind-Spot Attack - https://arxiv.org/pdf/1901.04684.pdf
@@ -282,10 +282,10 @@ These results are consistent with the existence of blind spots constructed in th
 3. Summary of this paper and **Narrow AI vs. AGI** - https://dmm613.wordpress.com/2014/10/15/intriguing-properties-of-neural-networks/
 
 ## Terminology
-1. Feature Extraction - Feature vectors extracted from the model. For example, latent vectors in autoencoder, face feature vectors in CNNs using triplet loss function, or word/sentence vectors in RNNs/Transformers.
+1. Feature Extraction - Feature vectors extracted from the model. For example, latent vectors in autoencoder, face feature vectors in CNNs using triplet loss function, or word/sentence embeddings in RNNs/Transformers.
 2. Feature Space - Space consisting of all (not only the ones learned/generated by the model) feature vectors.
 
-## Referennces
+## References
 1. Intriguing properties of neural networks - https://stats.stackexchange.com/questions/371564/intriguing-properties-of-neural-networks
 2. Lipschitz constant - https://en.wikipedia.org/wiki/Lipschitz_continuity
 3. Metric - https://en.wikipedia.org/wiki/Metric_(mathematics)
