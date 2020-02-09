@@ -252,7 +252,7 @@ ___
 #### Analysis of maxpool
 A max-pooling layer `φk` is contractive: `∀x, r, ‖φk(x) − φk(x+r)‖ ≤ ‖r‖`, since its Jacobian is a projection onto a subset of the input coordinates and hence does not expand the gradients.
 
-So, how is Jacobian related to contraction? I am copying the explanation from a stackoverflow post (link given in references section).
+So, how is Jacobian related to contraction? I am copying the explanation from a stackoverflow post (link given in "for more information" section).
 
 At a very basic level, the eigenvectors of a matrix are the directions in which the action of the associated transformation is a simple scaling operation. The associated eigenvalues are the scale factors. By linearity, the overall action of the transformation can be described by a superposition of these “eigen-actions.” If we want the transformation to contract in every direction, then all of its eigenvalues must have absolute value less than unity.
 
@@ -278,6 +278,8 @@ These results are consistent with the existence of blind spots constructed in th
 
 ## For more information
 1. The Limitations of Adversarial Training and the Blind-Spot Attack - https://arxiv.org/pdf/1901.04684.pdf
+2. How to know if a mapping is contractive - https://math.stackexchange.com/questions/2420107/what-is-the-link-between-contraction-mappings-and-the-eigenvalues-of-their-jacob
+3. Summary of this paper and **Narrow AI vs. AGI** - https://dmm613.wordpress.com/2014/10/15/intriguing-properties-of-neural-networks/
 
 ## Terminology
 1. Feature Extraction - Feature vectors extracted from the model. For example, latent vectors in autoencoder, face feature vectors in CNNs using triplet loss function, or word/sentence vectors in RNNs/Transformers.
@@ -289,7 +291,6 @@ These results are consistent with the existence of blind spots constructed in th
 3. Metric - https://en.wikipedia.org/wiki/Metric_(mathematics)
 4. Contraction Mapping - https://en.wikipedia.org/wiki/Contraction_mapping
 5. Fixed point - https://en.wikipedia.org/wiki/Fixed_point_(mathematics)
-6. How to know if a mapping is contractive - https://math.stackexchange.com/questions/2420107/what-is-the-link-between-contraction-mappings-and-the-eigenvalues-of-their-jacob 
 
 ## English Vocabulary
 1. intriguing - arousing one's curiosity or interest; fascinating.
